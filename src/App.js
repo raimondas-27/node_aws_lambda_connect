@@ -1,5 +1,8 @@
 import React, {Component} from "react";
 import {Table, Button} from "reactstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {faThumbsDown, faThumbsUp, faImage, faMoneyCheckAlt, faSearchDollar} from "@fortawesome/free-solid-svg-icons";
+
 
 class App extends Component {
 
@@ -7,7 +10,7 @@ class App extends Component {
       isLoading: false,
       invoices: [
          {
-            "id": "1000",
+            "id": "100",
             "Vendor": "Hankok",
             "Amount": "18.900",
             "Invoice": "1123",
@@ -15,7 +18,7 @@ class App extends Component {
 
          },
          {
-            "id": "1000",
+            "id": "200",
             "Vendor": "Hankok",
             "Amount": "18.900",
             "Invoice": "1123",
@@ -23,7 +26,7 @@ class App extends Component {
 
          },
          {
-            "id": "1000",
+            "id": "300",
             "Vendor": "Hankok",
             "Amount": "18.900",
             "Invoice": "1123",
@@ -31,7 +34,7 @@ class App extends Component {
 
          },
          {
-            "id": "1000",
+            "id": "400",
             "Vendor": "Hankok",
             "Amount": "18.900",
             "Invoice": "1123",
@@ -39,6 +42,12 @@ class App extends Component {
 
          }
       ],
+   }
+
+   remove(id) {
+      console.log(id)
+      let updated = [...this.state.invoices].filter(element => element.id !== id);
+      this.setState({invoices: updated})
    }
 
 
@@ -53,16 +62,32 @@ class App extends Component {
 
       let invoices = allInvoices.map(invoice =>
           <tr key={invoice.id}>
-            <td>{invoice.id}</td>
-            <td>{invoice.Vendor}</td>
-            <td>{invoice.Amount}</td>
-            <td>{invoice.Invoice}</td>
-            <td>{invoice.Date}</td>
-             <td><Button className="btn btn-lg btn-success" onClick={null}> OK </Button></td>
-             <td><Button className="btn btn-lg btn-danger" onClick={null}> Nooo OK</Button></td>
-             <td><Button className="btn btn-lg btn-info" onClick={null}> 50%</Button></td>
-             <td><Button className="btn btn-lg btn-warning" onClick={null}> ?? </Button></td>
-             <td><Button className="btn btn-lg btn-info" onClick={null}> Image</Button></td>
+             <td>{invoice.id}</td>
+             <td>{invoice.Vendor}</td>
+             <td>{invoice.Amount}</td>
+             <td>{invoice.Invoice}</td>
+             <td>{invoice.Date}</td>
+             <td>
+                <Button className="btn btn-lg btn-success" onClick={() => this.remove(invoice.id)}>
+                   <FontAwesomeIcon icon={faThumbsUp}/> OK
+                </Button>
+             </td>
+             <td>
+                <Button className="btn btn-lg btn-danger" onClick={() => this.remove(invoice.id)}>
+                   <FontAwesomeIcon icon={faThumbsDown}/> Not OK </Button>
+             </td>
+             <td>
+                <Button className="btn btn-lg btn-info" onClick={() => this.remove(invoice.id)}>
+                   <FontAwesomeIcon icon={faMoneyCheckAlt}/> 50%
+                </Button></td>
+             <td>
+                <Button className="btn btn-lg btn-warning" onClick={() => this.remove(invoice.id)}>
+                   <FontAwesomeIcon icon={faSearchDollar}/> ??
+                </Button></td>
+             <td>
+                <Button className="btn btn-lg btn-info" onClick={() => this.remove(invoice.id)}>
+                   <FontAwesomeIcon icon={faImage}/> Image
+                </Button></td>
           </tr>
       )
 
@@ -78,12 +103,14 @@ class App extends Component {
                 <div className=".col-xs-12 center text-center">
                    <Table dark responsive striped bordered hover>
                       <thead>
-                      <th>Vendor</th>
-                      <th>Amount</th>
-                      <th>Invoice #</th>
-                      <th>Date</th>
-                      <th colSpan="4">Actions</th>
-                      <th> Image</th>
+                      <tr>
+                         <th scope="row">Vendor</th>
+                         <th>Amount</th>
+                         <th>Invoice #</th>
+                         <th>Date</th>
+                         <th colSpan="4">Actions</th>
+                         <th> Image</th>
+                      </tr>
                       </thead>
                       <tbody>
                       {this.state.length === 0 ? <td colSpan="9"> All has been gone </td> : invoices}
